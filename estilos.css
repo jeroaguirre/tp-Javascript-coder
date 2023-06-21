@@ -1,0 +1,32 @@
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  #login-section,
+  #main-section {
+    width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  #login-section input,
+  #main-section input {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+  }
+  
+  #main-section h2,
+  #main-section h3 {
+    margin-top: 20px;
+  }
+  
+  #crypto-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  #crypto-list li {
+    margin-bottom: 5px;
+  }
+  
