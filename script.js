@@ -25,6 +25,24 @@ const users = {
   }
 };
 
+// Función para mostrar un mensaje de éxito
+function showSuccessMessage(message) {
+  Swal.fire({
+    icon: 'success',
+    title: 'Éxito',
+    text: message
+  });
+}
+
+// Función para mostrar un mensaje de error
+function showErrorMessage(message) {
+  Swal.fire({
+    icon: 'error',
+    title: 'Error',
+    text: message
+  });
+}
+
 // Función para mostrar la sección principal después del inicio de sesión
 function showMainSection() {
   document.getElementById('login-section').style.display = 'none';
@@ -33,44 +51,7 @@ function showMainSection() {
   const welcomeUsername = document.getElementById('welcome-username');
   welcomeUsername.textContent = currentUser;
 
-  const balanceList = document.getElementById('balance-list');
-  balanceList.innerHTML = '';
-
-  const currentUserBalance = users[currentUser].balance;
-
-  Object.entries(currentUserBalance).forEach(([crypto, quantity]) => {
-    if (crypto === 'usd') {
-      const listItem = document.createElement('li');
-      listItem.textContent = `USD: ${quantity}`;
-      balanceList.appendChild(listItem);
-    } else {
-      const priceUrl = `https://api.coingecko.com/api/v3/simple/price?ids=${crypto}&vs_currencies=usd`;
-      fetch(priceUrl)
-        .then(response => response.json())
-        .then(data => {
-          currentPrices[crypto] = data[crypto].usd;
-          const listItem = document.createElement('li');
-          listItem.textContent = `${crypto}: ${quantity} (Valor en USD: ${(quantity * currentPrices[crypto]).toFixed(2)})`;
-          balanceList.appendChild(listItem);
-        })
-        .catch(error => console.log(error));
-    }
-  });
-
-  const usdBalanceElement = document.getElementById('usd-balance');
-  if (usdBalanceElement) {
-    // Actualizar el balance en USD si el elemento ya existe
-    const usdBalance = (currentUserBalance.usd).toFixed(2);
-    usdBalanceElement.textContent = `Balance en USD: ${usdBalance}`;
-  } else {
-    // Crear un nuevo elemento para mostrar el balance en USD si no existe
-    const usdBalanceElement = document.createElement('li');
-    const usdBalance = (currentUserBalance.usd).toFixed(2);
-    usdBalanceElement.textContent = `Balance en USD: ${usdBalance}`;
-    usdBalanceElement.id = 'usd-balance';
-    balanceList.appendChild(usdBalanceElement);
-  }
-
+  updateBalanceDisplay();
   updateCryptoList();
 }
 
@@ -98,29 +79,17 @@ function register() {
 
   if (newUsername !== '' && !isNaN(usdAmount) && usdAmount >= 0) {
     if (users.hasOwnProperty(newUsername)) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error de registro',
-        text: 'El usuario ya existe. Por favor, elige otro nombre de usuario.'
-      });
+      showErrorMessage('El usuario ya existe. Por favor, elige otro nombre de usuario.');
     } else {
       users[newUsername] = {
         balance: {
           usd: usdAmount
         }
       };
-      Swal.fire({
-        icon: 'success',
-        title: 'Registro exitoso',
-        text: `Usuario ${newUsername} registrado con éxito.`
-      });
+      showSuccessMessage(`Usuario ${newUsername} registrado con éxito.`);
     }
   } else {
-    Swal.fire({
-      icon: 'error',
-      title: 'Error de registro',
-      text: 'Por favor, ingresa un usuario válido y un monto en USD válido.'
-    });
+    showErrorMessage('Por favor, ingresa un usuario válido y un monto en USD válido.');
   }
 }
 
@@ -130,17 +99,9 @@ function login() {
   if (users.hasOwnProperty(username)) {
     currentUser = username;
     showMainSection();
-    Swal.fire({
-      icon: 'success',
-      title: 'Inicio de sesión exitoso',
-      text: `¡Bienvenido, ${currentUser}!`
-    });
+    showSuccessMessage(`¡Bienvenido, ${currentUser}!`);
   } else {
-    Swal.fire({
-      icon: 'error',
-      title: 'Usuario inválido',
-      text: 'Por favor, ingresa un usuario válido.'
-    });
+    showErrorMessage('Por favor, ingresa un usuario válido.');
   }
 }
 
@@ -161,33 +122,17 @@ function buy() {
             users[currentUser].balance.usd -= cost;
             users[currentUser].balance[crypto] += quantity;
             updateBalanceDisplay();
-            Swal.fire({
-              icon: 'success',
-              title: 'Compra exitosa',
-              text: `Has comprado ${quantity} ${crypto} por ${cost.toFixed(2)} USD!`
-            });
+            showSuccessMessage(`Has comprado ${quantity} ${crypto} por ${cost.toFixed(2)} USD!`);
           } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Fondos insuficientes',
-              text: 'No tienes suficientes fondos para realizar esta compra.'
-            });
+            showErrorMessage('No tienes suficientes fondos para realizar esta compra.');
           }
         })
         .catch(error => console.log(error));
     } else {
-      Swal.fire({
-        icon: 'error',
-        title: 'Cantidad inválida',
-        text: 'Por favor, ingresa una cantidad válida.'
-      });
+      showErrorMessage('Por favor, ingresa una cantidad válida.');
     }
   } else {
-    Swal.fire({
-      icon: 'error',
-      title: 'Criptomoneda inválida',
-      text: 'Por favor, ingresa una criptomoneda válida.'
-    });
+    showErrorMessage('Por favor, ingresa una criptomoneda válida.');
   }
 }
 
@@ -207,63 +152,27 @@ function sell() {
           users[currentUser].balance.usd += earnings;
           users[currentUser].balance[crypto] -= quantity;
           updateBalanceDisplay();
-          Swal.fire({
-            icon: 'success',
-            title: 'Venta exitosa',
-            text: `Has vendido ${quantity} ${crypto} por ${earnings.toFixed(2)} USD!`
-          });
+          showSuccessMessage(`Has vendido ${quantity} ${crypto} por ${earnings.toFixed(2)} USD!`);
         })
         .catch(error => console.log(error));
     } else {
-      Swal.fire({
-        icon: 'error',
-        title: 'Cantidad inválida',
-        text: 'Por favor, ingresa una cantidad válida.'
-      });
+      showErrorMessage('Por favor, ingresa una cantidad válida.');
     }
   } else {
-    Swal.fire({
-      icon: 'error',
-      title: 'Criptomoneda inválida',
-      text: 'Por favor, ingresa una criptomoneda válida.'
-    });
+    showErrorMessage('Por favor, ingresa una criptomoneda válida.');
   }
 }
 
-// Función para actualizar la pantalla de balance
+// Función para actualizar la visualización de los saldos
 function updateBalanceDisplay() {
   const balanceList = document.getElementById('balance-list');
   balanceList.innerHTML = '';
 
   const currentUserBalance = users[currentUser].balance;
 
-  Object.entries(currentUserBalance).forEach(([crypto, quantity]) => {
-    if (crypto === 'usd') {
-      const listItem = document.createElement('li');
-      listItem.textContent = `USD: ${quantity}`;
-      balanceList.appendChild(listItem);
-    } else {
-      const listItem = document.createElement('li');
-      listItem.textContent = `${crypto}: ${quantity} (Valor en USD: ${(quantity * currentPrices[crypto]).toFixed(2)})`;
-      balanceList.appendChild(listItem);
-    }
+  Object.keys(currentUserBalance).forEach(crypto => {
+    const listItem = document.createElement('li');
+    listItem.textContent = `${crypto}: ${currentUserBalance[crypto]}`;
+    balanceList.appendChild(listItem);
   });
-
-  const usdBalanceElement = document.getElementById('usd-balance');
-  const usdBalance = (currentUserBalance.usd).toFixed(2);
-  usdBalanceElement.textContent = `Balance en USD: ${usdBalance}`;
 }
-
-// Ejecutar al cargar la página
-document.addEventListener('DOMContentLoaded', () => {
-  const welcomeSection = document.getElementById('welcome-section');
-  const loginSection = document.getElementById('login-section');
-  const mainSection = document.getElementById('main-section');
-
-  if (currentUser) {
-    showMainSection();
-  } else {
-    welcomeSection.style.display = 'block';
-    loginSection.style.display = 'block';
-  }
-});

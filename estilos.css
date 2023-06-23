@@ -1,32 +1,107 @@
 body {
-    font-family: Arial, sans-serif;
-  }
-  
-  #login-section,
-  #main-section {
-    width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  #login-section input,
-  #main-section input {
-    width: 100%;
-    padding: 5px;
-    margin-bottom: 10px;
-  }
-  
-  #main-section h2,
-  #main-section h3 {
-    margin-top: 20px;
-  }
-  
-  #crypto-list {
-    list-style: none;
-    padding: 0;
-  }
-  
-  #crypto-list li {
-    margin-bottom: 5px;
-  }
-  
+  font-family: Arial, sans-serif;
+  background-color: #f1f1f1;
+  margin: 0;
+  padding: 0;
+}
+
+#welcome-section {
+  text-align: center;
+  margin-top: 100px;
+}
+
+#login-section,
+#main-section {
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+#login-section h2,
+#main-section h1,
+#main-section h2,
+#main-section h3 {
+  color: #333;
+}
+
+#login-section input,
+#main-section input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-sizing: border-box;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 20px;
+}
+
+h2 {
+  text-align: center;
+  color: black;
+}
+
+#main-section h2 {
+  margin-top: 20px;
+}
+
+#main-section h3 {
+  margin-top: 30px;
+}
+
+#balance-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#balance-list li {
+  margin-bottom: 5px;
+}
+
+#crypto-select,
+#crypto-quantity {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-sizing: border-box;
+}
+
+button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 3px;
+  color: #fff;
+  background-color: #007bff;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Estilos adicionales para SweetAlert2 */
+
+.swal2-container {
+  z-index: 9999 !important;
+}
+
+.swal2-title,
+.swal2-content {
+  color: #333 !important;
+}
+
+.swal2-popup {
+  border-radius: 5px !important;
+}
