@@ -1,4 +1,4 @@
-// Variables globales
+
 const currentPrices = {};
 
 let currentUser = null;
@@ -10,7 +10,7 @@ const users = {
       radiant: 3000000,
       nexa: 1500000,
       ergo: 888,
-      usd: 1000 // Añadí un balance en USD para el usuario Jero
+      usd: 1000 
     }
   },
   Sofi: {
@@ -20,12 +20,12 @@ const users = {
       radiant: 3,
       nexa: 8,
       ergo: 12,
-      usd: 5000 // Añadí un balance en USD para el usuario Sofi
+      usd: 5000 
     }
   }
 };
 
-// Función para mostrar un mensaje de éxito
+
 function showSuccessMessage(message) {
   Swal.fire({
     icon: 'success',
@@ -34,7 +34,7 @@ function showSuccessMessage(message) {
   });
 }
 
-// Función para mostrar un mensaje de error
+
 function showErrorMessage(message) {
   Swal.fire({
     icon: 'error',
@@ -43,7 +43,7 @@ function showErrorMessage(message) {
   });
 }
 
-// Función para mostrar la sección principal después del inicio de sesión
+
 function showMainSection() {
   document.getElementById('login-section').style.display = 'none';
   document.getElementById('main-section').style.display = 'block';
@@ -55,7 +55,7 @@ function showMainSection() {
   updateCryptoList();
 }
 
-// Función para actualizar la lista de selección de monedas
+
 function updateCryptoList() {
   const cryptoSelect = document.getElementById('crypto-select');
   const currentUserBalance = users[currentUser].balance;
@@ -72,7 +72,7 @@ function updateCryptoList() {
   });
 }
 
-// Función para registrar un nuevo usuario
+
 function register() {
   const newUsername = document.getElementById('new-username').value;
   const usdAmount = parseFloat(document.getElementById('usd-amount').value);
@@ -93,7 +93,7 @@ function register() {
   }
 }
 
-// Función de inicio de sesión
+
 function login() {
   const username = document.getElementById('username').value;
   if (users.hasOwnProperty(username)) {
@@ -105,7 +105,7 @@ function login() {
   }
 }
 
-// Función para realizar una compra
+
 function buy() {
   const crypto = document.getElementById('crypto-select').value;
   const quantity = parseFloat(document.getElementById('crypto-quantity').value);
@@ -136,7 +136,6 @@ function buy() {
   }
 }
 
-// Función para realizar una venta
 function sell() {
   const crypto = document.getElementById('crypto-select').value;
   const quantity = parseFloat(document.getElementById('crypto-quantity').value);
@@ -163,7 +162,7 @@ function sell() {
   }
 }
 
-// Función para actualizar la visualización de los saldos
+
 function updateBalanceDisplay() {
   const balanceList = document.getElementById('balance-list');
   balanceList.innerHTML = '';
